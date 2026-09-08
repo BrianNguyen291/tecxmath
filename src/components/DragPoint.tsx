@@ -30,6 +30,9 @@ export function DragPoint({
 }: Props) {
   const ref = useRef<SVGGElement>(null)
   const [px, py] = toPx(vp, x, y)
+  const lo = range?.[0] ?? (axis === "y" ? vp.yMin : vp.xMin)
+  const hi = range?.[1] ?? (axis === "y" ? vp.yMax : vp.xMax)
+  const now = Number((axis === "y" ? y : x).toFixed(2))
 
   const apply = useCallback(
     (nx: number, ny: number) => {
@@ -81,7 +84,11 @@ export function DragPoint({
       tabIndex={0}
       role="slider"
       aria-label={label}
-      aria-valuenow={Number((axis === "y" ? y : x).toFixed(2))}
+      aria-orientation={axis === "y" ? "vertical" : "horizontal"}
+      aria-valuemin={lo}
+      aria-valuemax={hi}
+      aria-valuenow={now}
+      aria-valuetext={`${axis === "y" ? "y" : "x"} = ${now}`}
       onPointerDown={onPointerDown}
       onKeyDown={onKeyDown}
     >

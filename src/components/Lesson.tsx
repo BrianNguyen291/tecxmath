@@ -45,8 +45,13 @@ export function Lesson({ id, title, variant = "guided", challenge, toolbar, stag
   const current = beats[step]
   const locked = !done && current?.gate === true && !solved.has(step)
 
-  // In challenge mode the whole sequence waits until the student has reached the goal.
-  const held = variant === "challenge" && challenge != null && !challenge.solved
+  // In challenge mode the sequence waits until the goal is reached — and then stays
+  // open. Latched, or exploring further would snatch the lesson back.
+  const [everSolved, setEverSolved] = useState(false)
+  useEffect(() => {
+    if (challenge?.solved) setEverSolved(true)
+  }, [challenge?.solved])
+  const held = variant === "challenge" && challenge != null && !everSolved
   const [peeked, setPeeked] = useState(false)
 
   useEffect(() => {
@@ -61,11 +66,15 @@ export function Lesson({ id, title, variant = "guided", challenge, toolbar, stag
     tail.current?.scrollIntoView({ behavior: "smooth", block: "nearest" })
   }, [step, id])
 
+  // Completion fires exactly once per lesson. onComplete is a fresh closure on every
+  // render, so the effect re-runs — the latch makes that harmless instead of a loop.
+  const fired = useRef(false)
   useEffect(() => {
-    if (!done) return
+    if (!done || fired.current) return
+    fired.current = true
     track("lesson_complete", id)
     onComplete?.()
-  }, [done, onComplete, id])
+  }, [done, id, onComplete])
 
   return (
     <div className="app">

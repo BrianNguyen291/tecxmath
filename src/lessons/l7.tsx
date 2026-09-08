@@ -114,7 +114,7 @@ export function L7({ onBack, onNext, onComplete }: LessonProps) {
                 { tex: "u^2 - 5u + 4 = 0", note: "an ordinary quadratic" },
                 { tex: "(u - 1)(u - 4) = 0", note: "factorise" },
                 { tex: "x^2 = 1 \\quad\\text{or}\\quad x^2 = 4", note: "substitute back — the step people forget" },
-                { tex: "x = \\pm 1, \; \\pm 2", note: "four roots, matching the lower graph" },
+                { tex: "x = \\pm 1, \\; \\pm 2", note: "four roots, matching the lower graph" },
               ]}
             />
           ),

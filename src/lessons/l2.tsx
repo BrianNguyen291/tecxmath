@@ -17,7 +17,7 @@ export function L2({ onBack, onNext, onComplete }: LessonProps) {
         tex={`x^2 + ${trim(b)}x`}
         note={
           placed
-            ? `now a full square of side ${trim(b / 2 + 1)}·x`
+            ? `now a full square of side x + ${trim(b / 2)}`
             : gap
               ? `drag the corner in — it is (${trim(b / 2)})² = ${trim((b / 2) ** 2)}`
               : "two strips, one corner missing"
@@ -93,6 +93,9 @@ export function L2({ onBack, onNext, onComplete }: LessonProps) {
               answer="(x+4)^2-16"
               placeholder="(x+…)^2 − …"
               onSolved={solve}
+              reject={[
+                { expr: "x^2+8x", why: "That's where you started. Rewrite it as a square minus a number." },
+              ]}
               misread={[
                 { expr: "(x+4)^2", why: "You added 16 but never took it back off." },
                 { expr: "(x+8)^2-64", why: "Halve b before it goes in the bracket — 8 halves to 4." },

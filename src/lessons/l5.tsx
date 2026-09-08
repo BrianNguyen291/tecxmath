@@ -14,8 +14,15 @@ export function L5({ onBack, onNext, onComplete, variant, toolbar }: LessonProps
   const d = discriminant(q)
   const rs = roots(q)
 
-  const verdict = d > 1e-9 ? "two roots" : d < -1e-9 ? "no real roots" : "one repeated root"
-  const colour = d > 1e-9 ? "var(--accent)" : d < -1e-9 ? "var(--accent-2)" : "var(--text)"
+  const flat = Math.abs(a) < 1e-9
+  const verdict = flat
+    ? "not a quadratic — a must not be zero"
+    : d > 1e-9
+      ? "two roots"
+      : d < -1e-9
+        ? "no real roots"
+        : "one repeated root"
+  const colour = flat ? "var(--text-3)" : d > 1e-9 ? "var(--accent)" : d < -1e-9 ? "var(--accent-2)" : "var(--text)"
 
   const stage = (
     <>

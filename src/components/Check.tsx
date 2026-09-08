@@ -77,11 +77,15 @@ export function Entry({
   answer,
   placeholder = "type your answer",
   misread,
+  reject,
   onSolved,
 }: {
   question: string
   answer: string
   placeholder?: string
+  /** Forms that are numerically equivalent but do not answer the question — a
+   *  "rewrite this" exercise is passed by typing the question back otherwise. */
+  reject?: { expr: string; why: string }[]
   /** Wrong-but-expected answers, each with a response naming the misconception. */
   misread?: { expr: string; why: string }[]
   onSolved: () => void
@@ -97,13 +101,18 @@ export function Entry({
     if (!text.trim()) return
 
     tries.current += 1
-    const ok = equivalent(text, answer)
+    const refused = reject?.find((r) => equivalent(text, r.expr))
+    const ok = !refused && equivalent(text, answer)
     track("check_attempt", where.lesson, {
       beat: where.beat, correct: ok, attempt: tries.current, detail: text.slice(0, 40),
     })
     if (ok) {
       setState({ ok: true, msg: "That's it." })
       onSolved()
+      return
+    }
+    if (refused) {
+      setState({ ok: false, msg: refused.why })
       return
     }
     const hit = misread?.find((m) => equivalent(text, m.expr))
