@@ -75,18 +75,19 @@ export function L4({ onBack, onNext, onComplete }: LessonProps) {
           ),
         },
         {
-          title: "Your turn",
+          title: "The gap sets the depth",
           gate: true,
           render: (solve) => (
             <Entry
-              question="What is the larger root of x² − 5x + 6 = 0?"
-              answer="3"
-              placeholder="a number"
+              question="Drag the handles until the two roots are 4 apart. Slide that pair somewhere else on the axis, still 4 apart. What is the y-coordinate of the lowest point?"
+              answer="-2"
+              placeholder="a y-value"
               onSolved={solve}
               misread={[
-                { expr: "2", why: "That's the smaller one. Both are roots — the question wants the larger." },
-                { expr: "-3", why: "Check the signs: (x − 2)(x − 3) gives positive roots." },
-                { expr: "6", why: "6 is the product of the roots, not a root." },
+                { expr: "-4", why: "That's the depth for (x − p)(x − q). The curve on screen has a ½ in front, which halves it." },
+                { expr: "2", why: "Right size, wrong sign. The lowest point is below the axis." },
+                { expr: "-3.125", why: "That's the pair you started with — they're 5 apart. Close the gap to 4 and read it again." },
+                { expr: "-8", why: "That's the depth at a gap of 8. Check the handles are 4 apart, not 8." },
               ]}
             />
           ),
