@@ -44,7 +44,10 @@
     z-index: 5;
     background: var(--bg);
     padding-bottom: 12px;
-    box-shadow: 0 10px 12px -10px rgba(0, 0, 0, 0.28);
+    /* A real edge, so prose scrolling under the panel reads as deliberate
+       rather than as a rendering glitch. */
+    border-bottom: 1px solid var(--line-soft);
+    box-shadow: 0 12px 14px -12px rgba(0, 0, 0, 0.4);
   }
   /* Pinned, the stage must not eat the screen — leave room to actually read. */
   .stage .plot { max-height: 34vh; }
