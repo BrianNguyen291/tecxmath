@@ -26,3 +26,12 @@ export const LESSONS: LessonMeta[] = [
   { id: "l6", title: "Quadratic inequalities", idea: "Solving is reading a sign", uses: ["P1", "P5"], Component: L6 },
   { id: "l7", title: "Disguised quadratics", idea: "Spot the repeated block", uses: ["P1", "P4", "P6"], Component: L7 },
 ]
+
+/** The rest of A-level Pure. Same six primitives carry most of it. */
+export const COMING = [
+  "Graphs and transformations",
+  "Differentiation",
+  "Integration",
+  "Trigonometric equations",
+  "Sequences and series",
+]

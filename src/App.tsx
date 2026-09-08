@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react"
-import { LESSONS } from "./lessons"
+import { COMING, LESSONS } from "./lessons"
 import { load, markDone, reset, type Progress } from "./lib/progress"
 import "./components/ui.css"
 
@@ -44,10 +44,11 @@ export default function App() {
   return (
     <div className="app">
       <main className="home">
-        <p className="home-eyebrow">A-level Pure · Year 1</p>
+        <p className="home-brand">TecxMath</p>
         <h1>Quadratics</h1>
         <p className="home-sub">
-          Seven lessons. Every idea is something you move, not something you watch.
+          A-level Pure, Year 1. Seven lessons — every idea is something you move,
+          not something you watch.
         </p>
 
         <div className="list">
@@ -64,6 +65,19 @@ export default function App() {
               </button>
             )
           })}
+        </div>
+
+        <h2 className="home-next">Coming next</h2>
+        <div className="list">
+          {COMING.map((title) => (
+            <button className="row" key={title} disabled>
+              <span className="row-n">—</span>
+              <span className="row-body">
+                <span className="row-t">{title}</span>
+              </span>
+              <span className="row-soon">Soon</span>
+            </button>
+          ))}
         </div>
 
         <div style={{ marginTop: 28, display: "flex", alignItems: "center", gap: 16 }}>

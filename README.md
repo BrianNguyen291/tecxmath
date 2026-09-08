@@ -1,7 +1,9 @@
-# Quadratics
+# TecxMath
 
-Seven interactive lessons covering the quadratics content of Edexcel A-level Pure Year 1.
-Prototype for the MVP described in the PRD.
+An interactive maths curriculum. Course one is the quadratics content of
+Edexcel A-level Pure Year 1 — seven lessons on six reusable primitives.
+
+Live: https://briannguyen291.github.io/tecxmath/
 
 ```
 pnpm install

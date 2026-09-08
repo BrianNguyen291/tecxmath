@@ -1,4 +1,4 @@
-const KEY = "quadratics.progress.v1"
+const KEY = "tecxmath.progress.v1"
 
 export type Progress = Record<string, { done: boolean; at: number }>
 
