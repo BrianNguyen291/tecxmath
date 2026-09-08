@@ -62,11 +62,9 @@ export function Choice({
           </button>
         )
       })}
-      {chosen && (
-        <p role="status" className={`feedback ${chosen.correct ? "ok" : "no"}`}>
-          {chosen.why ?? (chosen.correct ? "That's it." : "Not quite — try another.")}
-        </p>
-      )}
+      <p role="status" aria-live="polite" className={chosen ? `feedback ${chosen.correct ? "ok" : "no"}` : "feedback-slot"}>
+        {chosen && (chosen.why ?? (chosen.correct ? "That's it." : "Not quite — try another."))}
+      </p>
     </div>
   )
 }
@@ -138,9 +136,9 @@ export function Entry({
         />
         {!state?.ok && <button className="btn" type="submit">Check</button>}
       </div>
-      {state && (
-        <p role="status" className={`feedback ${state.ok ? "ok" : "no"}`}>{state.msg}</p>
-      )}
+      <p role="status" aria-live="polite" className={state ? `feedback ${state.ok ? "ok" : "no"}` : "feedback-slot"}>
+        {state?.msg}
+      </p>
     </form>
   )
 }

@@ -9,7 +9,11 @@ const open = async () => { const p = await (await b.newContext({viewport:{width:
   await p.click(".beats > .btn"); await p.waitForTimeout(250)
   const btn = await p.$eval(".beats > .btn", n => ({ disabled: n.disabled, aria: n.getAttribute("aria-disabled"), cls: n.className }))
   out.push(`continue when locked: ${JSON.stringify(btn)} -> focusable=${!btn.disabled}`)
-  out.push(`live regions: ${await p.$$eval("[role=status]", n => n.length)}`)
+  const before = await p.$$eval("[role=status]", n => n.length)
+  const o = await p.$$(".opt"); if (o[1]) await o[1].click()
+  await p.waitForTimeout(300)
+  const txt = await p.$$eval("[role=status]", n => n.map(x => x.textContent).filter(Boolean))
+  out.push(`live regions: present-before-answer=${before} announced-after="${(txt[0]||"").slice(0,50)}"`)
   await p.context().close()
 }
 {

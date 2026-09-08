@@ -233,3 +233,6 @@
 .btn.is-locked { background: var(--bg-elev); color: var(--text-2); cursor: default; }
 .btn.is-locked:hover { opacity: 1; }
 .btn.is-locked:active { transform: none; }
+
+/* An empty live region, present so assistive tech can observe it filling. */
+.feedback-slot { margin: 0; height: 0; overflow: hidden; }
