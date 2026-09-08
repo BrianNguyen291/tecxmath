@@ -2,7 +2,11 @@ import { useState } from "react"
 import { Lesson } from "../components/Lesson"
 import { Choice } from "../components/Check"
 import { SignExplorer } from "../components/SignExplorer"
-import { Curve, Plot, Readout, Slider, VP, type LessonProps } from "./kit"
+import { Curve, Plot, Readout, Slider, type LessonProps } from "./kit"
+import type { Viewport } from "../lib/coords"
+
+/** Taller than the shared viewport: the negative region is the whole point here. */
+const VP6: Viewport = { xMin: -8, xMax: 8, yMin: -7.5, yMax: 2.5 }
 import { evalQuadratic, quadraticTex } from "../lib/quadratic"
 
 export function L6({ onBack, onNext, onComplete }: LessonProps) {
@@ -14,8 +18,8 @@ export function L6({ onBack, onNext, onComplete }: LessonProps) {
   const stage = (
     <>
       <Readout tex={quadraticTex(q).replace("y =", "")} note="blue where positive, red where negative" />
-      <Plot vp={VP} label="A parabola above and below the axis">
-        <Curve vp={VP} f={(x) => evalQuadratic(q, x)} />
+      <Plot vp={VP6} label="A parabola above and below the axis">
+        <Curve vp={VP6} f={(x) => evalQuadratic(q, x)} />
       </Plot>
       <SignExplorer q={q} />
       <div className="controls">
