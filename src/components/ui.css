@@ -36,7 +36,20 @@
   align-items: start;
 }
 @media (max-width: 900px) {
-  .lesson { grid-template-columns: 1fr; gap: 24px; padding-top: 16px; }
+  .lesson { grid-template-columns: 1fr; gap: 20px; padding-top: 12px; }
+  /* Stacked, the sticky stage sits directly over the prose. It needs its own
+     ground and a layer, or the beats scroll through it. */
+  .stage {
+    gap: 12px;
+    z-index: 5;
+    background: var(--bg);
+    padding-bottom: 12px;
+    box-shadow: 0 10px 12px -10px rgba(0, 0, 0, 0.28);
+  }
+  /* Pinned, the stage must not eat the screen — leave room to actually read. */
+  .stage .plot { max-height: 34vh; }
+  .ctl { padding: 5px 4px; }
+  .ctl-label { width: 62px; }
 }
 
 .stage { position: sticky; top: 76px; display: flex; flex-direction: column; gap: 18px; }
