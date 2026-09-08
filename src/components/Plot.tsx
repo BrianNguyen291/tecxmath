@@ -44,16 +44,18 @@ export function Plot({ vp, children, xStep = 1, yStep = 1, label, svgRef }: Prop
         {showX && <line className="plot-axis" x1={0} y1={y0} x2={BOX.w} y2={y0} />}
         {showY && <line className="plot-axis" x1={x0} y1={0} x2={x0} y2={BOX.h} />}
 
+        {children}
+
         {showX &&
           ticks(vp.xMin + xStep, vp.xMax - xStep * 0.5, xStep * 2).map((x) =>
             x === 0 ? null : (
-              <text key={`tx${x}`} className="plot-tick" x={toPx(vp, x, 0)[0]} y={y0 + 24} textAnchor="middle">
+              <text key={`tx${x}`} className="plot-tick" x={toPx(vp, x, 0)[0]} y={y0 + 24}
+                textAnchor="middle" stroke="var(--bg-sunk)" strokeWidth="4"
+                paintOrder="stroke" strokeLinejoin="round">
                 {x}
               </text>
             ),
           )}
-
-        {children}
       </g>
     </svg>
   )
