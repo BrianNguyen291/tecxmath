@@ -85,6 +85,41 @@ export function Curve({ vp, f, ghost = false }: CurveProps) {
   return <path className={ghost ? "plot-curve-ghost" : "plot-curve"} d={d} />
 }
 
+type ParamProps = {
+  vp: Viewport
+  x: (t: number) => number
+  y: (t: number) => number
+  t?: [number, number]
+  ghost?: boolean
+}
+
+/**
+ * Curve generalised to (x(t), y(t)). Everything Curve draws is the special case
+ * x = t, but this can also draw circles, ellipses and parametric paths — which
+ * y = f(x) cannot express at all. Circles are Pure Y1 chapter 6.
+ */
+export function ParamCurve({ vp, x, y, t = [0, 1], ghost = false }: ParamProps) {
+  const N = 360
+  const [t0, t1] = t
+  let d = ""
+  let pen = false
+
+  for (let i = 0; i <= N; i++) {
+    const tv = t0 + ((t1 - t0) * i) / N
+    const xv = x(tv)
+    const yv = y(tv)
+    if (!Number.isFinite(xv) || !Number.isFinite(yv)) {
+      pen = false
+      continue
+    }
+    const [cx, cy] = toPx(vp, xv, yv)
+    d += `${pen ? "L" : "M"}${cx.toFixed(2)} ${cy.toFixed(2)} `
+    pen = true
+  }
+
+  return <path className={ghost ? "plot-curve-ghost" : "plot-curve"} d={d} />
+}
+
 export function Dot({
   vp,
   x,

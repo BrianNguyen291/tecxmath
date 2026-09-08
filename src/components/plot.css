@@ -10,10 +10,10 @@
 }
 
 .plot-grid    { stroke: var(--line-soft); stroke-width: 1; }
-.plot-axis    { stroke: var(--line); stroke-width: 1.5; }
+.plot-axis    { stroke: var(--line-strong); stroke-width: 1.5; }
 .plot-tick    { fill: var(--text-3); font-size: 15px; font-family: var(--font-num); }
 .plot-curve   { fill: none; stroke: var(--accent); stroke-width: 3.5; stroke-linecap: round; }
-.plot-curve-ghost { fill: none; stroke: var(--line); stroke-width: 2.5; stroke-dasharray: 6 7; stroke-linecap: round; }
+.plot-curve-ghost { fill: none; stroke: var(--line-strong); stroke-width: 2.5; stroke-dasharray: 6 7; stroke-linecap: round; }
 
 .plot-root    { fill: var(--accent-2); }
 .plot-vertex  { fill: var(--bg-sunk); stroke: var(--accent-2); stroke-width: 3; }

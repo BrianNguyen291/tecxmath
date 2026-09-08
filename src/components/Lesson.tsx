@@ -128,10 +128,11 @@ export function Lesson({ id, title, variant = "guided", challenge, toolbar, stag
 
           {!done && !held && (
             <button
-              className="btn"
-              onClick={() => setStep((s) => s + 1)}
-              disabled={locked}
-              style={locked ? { opacity: 0.35, cursor: "default" } : undefined}
+              className={locked ? "btn is-locked" : "btn"}
+              aria-disabled={locked || undefined}
+              onClick={() => {
+                if (!locked) setStep((s) => s + 1)
+              }}
             >
               {locked ? "Answer to continue" : "Continue"}
             </button>

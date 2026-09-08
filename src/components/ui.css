@@ -22,7 +22,7 @@
 .pips { display: flex; gap: 6px; }
 .pip {
   width: 6px; height: 6px; border-radius: 999px;
-  background: var(--line); transition: all 0.3s var(--ease);
+  background: var(--line-strong); transition: all 0.3s var(--ease);
 }
 .pip.on { background: var(--accent); }
 .pip.now { width: 18px; background: var(--accent); }
@@ -66,22 +66,22 @@
   background: transparent; height: 26px; margin: 0; cursor: pointer;
 }
 .ctl input[type="range"]::-webkit-slider-runnable-track {
-  height: 4px; border-radius: 999px; background: var(--line);
+  height: 4px; border-radius: 999px; background: var(--track);
 }
 .ctl input[type="range"]::-moz-range-track {
-  height: 4px; border-radius: 999px; background: var(--line);
+  height: 4px; border-radius: 999px; background: var(--track);
 }
 .ctl input[type="range"]::-webkit-slider-thumb {
   appearance: none; -webkit-appearance: none;
   width: 22px; height: 22px; margin-top: -9px; border-radius: 999px;
-  background: #fff; border: 0.5px solid rgba(0,0,0,0.06);
-  box-shadow: 0 3px 8px rgba(0,0,0,0.15), 0 1px 1px rgba(0,0,0,0.16);
+  background: var(--bg); border: 2px solid var(--accent);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.14);
   transition: transform 0.15s var(--ease);
 }
 .ctl input[type="range"]::-moz-range-thumb {
   width: 22px; height: 22px; border-radius: 999px;
-  background: #fff; border: 0.5px solid rgba(0,0,0,0.06);
-  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  background: var(--bg); border: 2px solid var(--accent);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.14);
 }
 .ctl input[type="range"]:active::-webkit-slider-thumb { transform: scale(1.12); }
 
@@ -140,7 +140,7 @@
 .btn {
   align-self: flex-start;
   padding: 12px 26px; border-radius: 999px;
-  background: var(--accent); color: #fff; font-size: 16px; font-weight: 500;
+  background: var(--accent); color: var(--accent-ink); font-size: 16px; font-weight: 500;
   transition: opacity 0.18s var(--ease), transform 0.18s var(--ease);
 }
 .btn:hover { opacity: 0.86; }
@@ -227,3 +227,9 @@
 .seg button.on { background: var(--bg); color: var(--text); font-weight: 500;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12); }
 .compare-note { font-size: 13px; color: var(--text-3); flex: 1 1 100%; }
+
+/* A gated Continue stays in the tab order — aria-disabled, not disabled — so a
+   keyboard user can reach it and be told why it will not advance. */
+.btn.is-locked { background: var(--bg-elev); color: var(--text-2); cursor: default; }
+.btn.is-locked:hover { opacity: 1; }
+.btn.is-locked:active { transform: none; }

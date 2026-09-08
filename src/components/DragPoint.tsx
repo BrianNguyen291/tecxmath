@@ -73,6 +73,10 @@ export function DragPoint({
     }
     const delta = map[e.key]
     if (!delta) return
+    // Only swallow the key if it moves this handle; otherwise let the page scroll.
+    const movesX = delta[0] !== 0 && axis !== "y"
+    const movesY = delta[1] !== 0 && axis !== "x"
+    if (!movesX && !movesY) return
     e.preventDefault()
     apply(x + delta[0], y + delta[1])
   }

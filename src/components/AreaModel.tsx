@@ -20,10 +20,15 @@ export function AreaModel({
 }) {
   const W = 640
   const H = 400
-  const unit = 210 // pixels representing "x"
-  const half = (Math.abs(b) / 2) * 34 // pixels representing b/2
+  // Scale to fit at every b: x is nominally 6 units, the strips are b/2 units,
+  // and together they fill the available height. Previously fixed, so b >= 9 ran
+  // the drag target off the bottom of the canvas.
   const ox = 90
   const oy = 40
+  const X_UNITS = 6
+  const scale = (H - oy - 24) / (X_UNITS + Math.abs(b) / 2)
+  const unit = X_UNITS * scale
+  const half = (Math.abs(b) / 2) * scale
 
   const svg = useRef<SVGSVGElement>(null)
   const home = { x: ox + unit + 90, y: oy + 40 }
@@ -66,7 +71,11 @@ export function AreaModel({
 
   return (
     <svg ref={svg} className="plot" viewBox={`0 0 ${W} ${H}`} role="img"
-      aria-label={`Area model for x squared plus ${trim(b)} x`}>
+      aria-label={
+        showGap
+          ? `Area model: an x by x square, two strips each ${trim(Math.abs(b) / 2)} by x, and the missing corner of area ${trim((b / 2) ** 2)}.`
+          : `Area model: an x by x square with two strips each ${trim(Math.abs(b) / 2)} by x. One corner is missing.`
+      }>
       {/* x by x */}
       <rect className="area-sq" x={ox} y={oy} width={unit} height={unit} rx="3" />
       <text className="area-lab" x={ox + unit / 2} y={oy + unit / 2 + 7} textAnchor="middle">

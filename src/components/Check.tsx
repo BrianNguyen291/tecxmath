@@ -63,7 +63,7 @@ export function Choice({
         )
       })}
       {chosen && (
-        <p className={`feedback ${chosen.correct ? "ok" : "no"}`}>
+        <p role="status" className={`feedback ${chosen.correct ? "ok" : "no"}`}>
           {chosen.why ?? (chosen.correct ? "That's it." : "Not quite — try another.")}
         </p>
       )}
@@ -138,7 +138,9 @@ export function Entry({
         />
         {!state?.ok && <button className="btn" type="submit">Check</button>}
       </div>
-      {state && <p className={`feedback ${state.ok ? "ok" : "no"}`}>{state.msg}</p>}
+      {state && (
+        <p role="status" className={`feedback ${state.ok ? "ok" : "no"}`}>{state.msg}</p>
+      )}
     </form>
   )
 }

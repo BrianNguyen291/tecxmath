@@ -19,9 +19,20 @@ export function SignExplorer({ q, xMin = -8, xMax = 8 }: { q: Coeffs; xMin?: num
     return { lo, hi, sign }
   })
 
+  const describe = (bd: { lo: number; hi: number; sign: number }) => {
+    const where =
+      bd.lo === xMin && bd.hi === xMax ? "everywhere"
+        : bd.lo === xMin ? `for x below ${trim(bd.hi)}`
+          : bd.hi === xMax ? `for x above ${trim(bd.lo)}`
+            : `between ${trim(bd.lo)} and ${trim(bd.hi)}`
+    return `${bd.sign > 0 ? "positive" : "negative"} ${where}`
+  }
+  const label = `The expression is ${bands.map(describe).join(", and ")}.${
+    crit.length ? ` It is zero at ${crit.map(trim).join(" and ")}.` : ""
+  }`
+
   return (
-    <svg className="sign" viewBox={`0 0 ${W} ${H}`} role="img"
-      aria-label="Sign of the expression across the number line">
+    <svg className="sign" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={label}>
       {bands.map((b, i) => (
         <rect
           key={i}
