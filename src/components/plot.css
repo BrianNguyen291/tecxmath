@@ -1,0 +1,73 @@
+.plot {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--bg-sunk);
+  border-radius: var(--r-md);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.plot-grid    { stroke: var(--line-soft); stroke-width: 1; }
+.plot-axis    { stroke: var(--line); stroke-width: 1.5; }
+.plot-tick    { fill: var(--text-3); font-size: 15px; font-family: var(--font-num); }
+.plot-curve   { fill: none; stroke: var(--accent); stroke-width: 3.5; stroke-linecap: round; }
+.plot-curve-ghost { fill: none; stroke: var(--line); stroke-width: 2.5; stroke-dasharray: 6 7; stroke-linecap: round; }
+
+.plot-root    { fill: var(--accent-2); }
+.plot-vertex  { fill: var(--bg-sunk); stroke: var(--accent-2); stroke-width: 3; }
+
+.drag {
+  cursor: grab;
+  transition: filter 0.2s var(--ease);
+}
+.drag:active { cursor: grabbing; }
+.drag-hit { fill: transparent; }
+.drag-ring {
+  fill: var(--accent);
+  stroke: var(--bg-sunk);
+  stroke-width: 3;
+}
+.drag:hover .drag-ring,
+.drag:focus-visible .drag-ring { filter: brightness(1.12); }
+.drag:focus-visible { outline: none; }
+.drag:focus-visible .drag-halo { opacity: 1; }
+.drag-halo {
+  fill: var(--accent);
+  opacity: 0;
+  transition: opacity 0.2s var(--ease);
+}
+
+/* ---------- P3 area model ---------- */
+.area-sq   { fill: var(--accent); fill-opacity: 0.22; stroke: var(--accent); stroke-width: 2.5; }
+.area-rect { fill: var(--accent); fill-opacity: 0.11; stroke: var(--accent); stroke-width: 2; }
+.area-gap  { fill: var(--accent-2); fill-opacity: 0.16; stroke: var(--accent-2);
+             stroke-width: 2.5; stroke-dasharray: 7 6; }
+.area-lab  { fill: var(--text-2); font-size: 17px; font-family: var(--font); }
+.area-lab-hi { fill: var(--accent-2); font-size: 17px; font-family: var(--font); font-weight: 600; }
+
+/* ---------- P5 sign explorer ---------- */
+.sign { display: block; width: 100%; height: auto; }
+.sign-line { stroke: var(--line); stroke-width: 2; }
+.sign-band { height: 10px; }
+.sign-pos { fill: var(--accent); fill-opacity: 0.75; }
+.sign-neg { fill: var(--accent-2); fill-opacity: 0.75; }
+.sign-crit { fill: var(--text); }
+.sign-lab { fill: var(--text-2); font-size: 15px; font-family: var(--font-num); }
+.sign-sym { fill: var(--text); font-size: 19px; font-family: var(--font); font-weight: 600; }
+
+/* ---------- P4 step reveal ---------- */
+.steps { display: flex; flex-direction: column; gap: 2px; }
+.step {
+  display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 18px;
+  padding: 13px 16px; border-radius: var(--r-sm);
+  animation: rise 0.42s var(--ease) both;
+}
+.step:nth-child(odd) { background: var(--bg-elev); }
+.step-tex { font-size: 18px; overflow-x: auto; }
+.step-note { font-size: 13px; color: var(--text-2); text-align: right; max-width: 15rem; }
+@media (max-width: 560px) {
+  .step { grid-template-columns: 1fr; gap: 5px; }
+  .step-note { text-align: left; }
+}
