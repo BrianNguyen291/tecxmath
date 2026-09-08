@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { compile, equivalent } from "./expr"
+import { compile, equivalent, shape } from "./expr"
 
 describe("equivalent", () => {
   it("matches expanded and factored forms", () => {
@@ -44,5 +44,26 @@ describe("equivalent", () => {
 
   it("handles functions and constants", () => {
     expect(equivalent("sqrt(x^2)", "abs(x)")).toBe(true)
+  })
+})
+
+describe("shape", () => {
+  it("separates forms that sampling cannot", () => {
+    // These are the SAME function — equivalence must say yes, shape must say no.
+    expect(equivalent("(x+4)^2-16", "x^2+8x")).toBe(true)
+    expect(shape("(x+4)^2-16")).toBe("sub(pow(add(var,num),num),num)")
+    expect(shape("x^2+8x")).toBe("add(pow(var,num),mul(num,var))")
+  })
+
+  it("matches completed-square form and rejects standard form", () => {
+    const isCompletedSquare = /^sub\(pow\(/
+    expect(isCompletedSquare.test(shape("(x+4)^2-16")!)).toBe(true)
+    expect(isCompletedSquare.test(shape("(x-3)^2-4")!)).toBe(true)
+    expect(isCompletedSquare.test(shape("x^2+8x")!)).toBe(false)
+    expect(isCompletedSquare.test(shape("x^2-6x+5")!)).toBe(false)
+  })
+
+  it("returns null on unparseable input rather than throwing", () => {
+    expect(shape("2x+")).toBe(null)
   })
 })

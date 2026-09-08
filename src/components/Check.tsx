@@ -1,7 +1,7 @@
 import { useRef, useState } from "react"
 import { track } from "../lib/track"
 import { useWhere } from "./Lesson"
-import { equivalent } from "../lib/expr"
+import { equivalent, shape } from "../lib/expr"
 import { Tex } from "./Tex"
 
 const Tick = () => (
@@ -77,15 +77,16 @@ export function Entry({
   answer,
   placeholder = "type your answer",
   misread,
-  reject,
+  requireShape,
   onSolved,
 }: {
   question: string
   answer: string
   placeholder?: string
-  /** Forms that are numerically equivalent but do not answer the question — a
-   *  "rewrite this" exercise is passed by typing the question back otherwise. */
-  reject?: { expr: string; why: string }[]
+  /** For "write it in the form ..." questions. The answer must be equivalent AND
+   *  match this shape — otherwise typing the question back passes, since the two
+   *  are the same function. Signatures come from shape() in lib/expr. */
+  requireShape?: { test: RegExp; why: string }
   /** Wrong-but-expected answers, each with a response naming the misconception. */
   misread?: { expr: string; why: string }[]
   onSolved: () => void
@@ -101,8 +102,10 @@ export function Entry({
     if (!text.trim()) return
 
     tries.current += 1
-    const refused = reject?.find((r) => equivalent(text, r.expr))
-    const ok = !refused && equivalent(text, answer)
+    const sameValue = equivalent(text, answer)
+    const sig = shape(text)
+    const wrongForm = sameValue && requireShape != null && !(sig && requireShape.test.test(sig))
+    const ok = sameValue && !wrongForm
     track("check_attempt", where.lesson, {
       beat: where.beat, correct: ok, attempt: tries.current, detail: text.slice(0, 40),
     })
@@ -111,8 +114,8 @@ export function Entry({
       onSolved()
       return
     }
-    if (refused) {
-      setState({ ok: false, msg: refused.why })
+    if (wrongForm && requireShape) {
+      setState({ ok: false, msg: requireShape.why })
       return
     }
     const hit = misread?.find((m) => equivalent(text, m.expr))

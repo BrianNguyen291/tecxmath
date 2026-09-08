@@ -168,6 +168,37 @@ function evalNode(n: Node, x: number): number {
   }
 }
 
+const OPNAME: Record<string, string> = {
+  "+": "add", "-": "sub", "*": "mul", "/": "div", "^": "pow",
+}
+
+function sig(n: Node): string {
+  switch (n.k) {
+    case "num": return "num"
+    case "var": return "var"
+    case "neg": return `neg(${sig(n.e)})`
+    case "fn": return `${n.name}(${sig(n.a)})`
+    case "bin": return `${OPNAME[n.op] ?? n.op}(${sig(n.l)},${sig(n.r)})`
+  }
+}
+
+/**
+ * A structural signature for an expression, e.g.
+ *   "(x+4)^2-16" -> "sub(pow(add(var,num),num),num)"
+ *   "x^2+8x"     -> "add(pow(var,num),mul(num,var))"
+ *
+ * Equivalence by sampling cannot tell these apart — they are the same function.
+ * A "write it in completed square form" question is asking about shape, not value,
+ * so it needs this instead. Returns null if the input does not parse.
+ */
+export function shape(src: string): string | null {
+  try {
+    return sig(parse(tokenize(src)))
+  } catch {
+    return null
+  }
+}
+
 export type Compiled = (x: number) => number
 
 /** Throws with a human-readable message if the input is not a valid expression. */
