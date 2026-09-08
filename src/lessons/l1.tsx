@@ -27,6 +27,7 @@ export function L1({ onBack, onNext, onComplete }: LessonProps) {
 
   return (
     <Lesson
+      id="l1"
       title="The curve and its coefficients"
       stage={stage}
       onBack={onBack}

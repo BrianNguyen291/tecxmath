@@ -32,6 +32,7 @@ export function L6({ onBack, onNext, onComplete }: LessonProps) {
 
   return (
     <Lesson
+      id="l6"
       title="Quadratic inequalities"
       stage={stage}
       onBack={onBack}

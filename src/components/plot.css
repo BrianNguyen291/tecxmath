@@ -42,8 +42,17 @@
 /* ---------- P3 area model ---------- */
 .area-sq   { fill: var(--accent); fill-opacity: 0.22; stroke: var(--accent); stroke-width: 2.5; }
 .area-rect { fill: var(--accent); fill-opacity: 0.11; stroke: var(--accent); stroke-width: 2; }
-.area-gap  { fill: var(--accent-2); fill-opacity: 0.16; stroke: var(--accent-2);
-             stroke-width: 2.5; stroke-dasharray: 7 6; }
+.area-slot { fill: none; stroke: var(--accent-2); stroke-width: 2.5;
+             stroke-dasharray: 7 6; opacity: 0.65; }
+.area-piece rect {
+  fill: var(--accent-2); fill-opacity: 0.3; stroke: var(--accent-2); stroke-width: 2.5;
+}
+.area-piece { cursor: grab; }
+.area-piece:active { cursor: grabbing; }
+.area-piece.placed { cursor: default; }
+.area-piece.placed rect { fill-opacity: 0.18; stroke-dasharray: none; }
+.area-piece:focus-visible rect { stroke-width: 4; }
+.area-piece:focus-visible { outline: none; }
 .area-lab  { fill: var(--text-2); font-size: 17px; font-family: var(--font); }
 .area-lab-hi { fill: var(--accent-2); font-size: 17px; font-family: var(--font); font-weight: 600; }
 

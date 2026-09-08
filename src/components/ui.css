@@ -190,3 +190,40 @@
   font-size: 12px; color: var(--text-3); border: 1px solid var(--line);
   padding: 2px 8px; border-radius: 999px; flex: none;
 }
+
+/* ---------- variant: focus — stage full width, one card of prose beneath ---------- */
+.lesson-focus { grid-template-columns: minmax(0, 1fr); max-width: 860px; gap: 30px; }
+.lesson-focus .stage { position: static; }
+.lesson-focus .beats {
+  gap: 26px; padding: 26px 28px;
+  background: var(--bg-elev); border-radius: var(--r-lg);
+}
+.lesson-focus .beat-h { font-size: 23px; }
+
+/* ---------- variant: challenge — the goal comes before the telling ---------- */
+.challenge-k {
+  display: block; font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--accent-2); margin-bottom: 8px;
+}
+.beat.challenge {
+  padding: 22px 24px; border-radius: var(--r-lg);
+  background: var(--bg-elev); border: 1px solid var(--line-soft);
+}
+
+/* ---------- comparison toolbar ---------- */
+.compare {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  max-width: 1120px; margin: 0 auto; padding: 18px 22px 0;
+}
+.compare-k { font-size: 13px; color: var(--text-2); }
+.seg {
+  display: inline-flex; padding: 2px; gap: 2px;
+  background: var(--bg-elev); border-radius: 10px;
+}
+.seg button {
+  padding: 7px 15px; border-radius: 8px; font-size: 14px; color: var(--text-2);
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+.seg button.on { background: var(--bg); color: var(--text); font-weight: 500;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12); }
+.compare-note { font-size: 13px; color: var(--text-3); flex: 1 1 100%; }

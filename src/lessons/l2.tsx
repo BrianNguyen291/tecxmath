@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Lesson } from "../components/Lesson"
+import { Lesson, SolveWhen } from "../components/Lesson"
 import { Entry } from "../components/Check"
 import { AreaModel } from "../components/AreaModel"
 import { Steps } from "../components/Steps"
@@ -9,14 +9,21 @@ import { trim } from "../lib/quadratic"
 export function L2({ onBack, onNext, onComplete }: LessonProps) {
   const [b, setB] = useState(6)
   const [gap, setGap] = useState(false)
+  const [placed, setPlaced] = useState(false)
 
   const stage = (
     <>
       <Readout
         tex={`x^2 + ${trim(b)}x`}
-        note={gap ? `notch = (${trim(b / 2)})² = ${trim((b / 2) ** 2)}` : "two strips, one corner missing"}
+        note={
+          placed
+            ? `now a full square of side ${trim(b / 2 + 1)}·x`
+            : gap
+              ? `drag the corner in — it is (${trim(b / 2)})² = ${trim((b / 2) ** 2)}`
+              : "two strips, one corner missing"
+        }
       />
-      <AreaModel b={b} showGap={gap} />
+      <AreaModel b={b} showGap={gap} onPlaced={() => setPlaced(true)} />
       <div className="controls">
         <Slider sym="b" value={b} onChange={setB} min={1} max={12} step={1} />
       </div>
@@ -25,6 +32,7 @@ export function L2({ onBack, onNext, onComplete }: LessonProps) {
 
   return (
     <Lesson
+      id="l2"
       title="Completing the square"
       stage={stage}
       onBack={onBack}
@@ -43,12 +51,21 @@ export function L2({ onBack, onNext, onComplete }: LessonProps) {
         },
         {
           title: "It isn't a square yet",
-          render: () => (
+          gate: true,
+          render: (solve) => (
             <>
-              <p>There's a notch missing in the corner. Its area is <strong>(b/2)²</strong>.</p>
-              <button className="btn ghost" onClick={() => setGap(true)} style={{ marginTop: 12 }}>
-                Show the notch
+              <p>There's a notch missing in the corner, exactly <strong>(b/2)²</strong> in area.</p>
+              <p>Drag the red square into it.</p>
+              <button
+                className="btn ghost"
+                onClick={() => setGap(true)}
+                style={{ marginTop: 12 }}
+                disabled={gap}
+              >
+                {gap ? "Drag it in" : "Show me the piece"}
               </button>
+              <SolveWhen on={placed} solve={solve} />
+              {placed && <p className="feedback ok">Filled. The shape is a square now.</p>}
             </>
           ),
         },

@@ -1,4 +1,6 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
+import { track } from "../lib/track"
+import { useWhere } from "./Lesson"
 import { equivalent } from "../lib/expr"
 import { Tex } from "./Tex"
 
@@ -28,11 +30,18 @@ export function Choice({
   onSolved: () => void
 }) {
   const [picked, setPicked] = useState<number | null>(null)
+  const tries = useRef(0)
+  const where = useWhere()
   const chosen = picked === null ? null : options[picked]
 
   const pick = (i: number) => {
     if (chosen?.correct) return
     setPicked(i)
+    tries.current += 1
+    track("check_attempt", where.lesson, {
+      beat: where.beat, correct: !!options[i].correct, attempt: tries.current,
+      detail: options[i].label,
+    })
     if (options[i].correct) onSolved()
   }
 
@@ -79,13 +88,20 @@ export function Entry({
 }) {
   const [text, setText] = useState("")
   const [state, setState] = useState<null | { ok: boolean; msg: string }>(null)
+  const tries = useRef(0)
+  const where = useWhere()
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault()
     if (state?.ok) return
     if (!text.trim()) return
 
-    if (equivalent(text, answer)) {
+    tries.current += 1
+    const ok = equivalent(text, answer)
+    track("check_attempt", where.lesson, {
+      beat: where.beat, correct: ok, attempt: tries.current, detail: text.slice(0, 40),
+    })
+    if (ok) {
       setState({ ok: true, msg: "That's it." })
       onSolved()
       return

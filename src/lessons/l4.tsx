@@ -31,6 +31,7 @@ export function L4({ onBack, onNext, onComplete }: LessonProps) {
 
   return (
     <Lesson
+      id="l4"
       title="Roots, factors and the formula"
       stage={stage}
       onBack={onBack}

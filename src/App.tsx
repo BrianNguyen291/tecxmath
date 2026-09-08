@@ -1,4 +1,6 @@
 import { useCallback, useState } from "react"
+import { L5 } from "./lessons/l5"
+import type { Variant } from "./components/Lesson"
 import { COMING, LESSONS } from "./lessons"
 import { load, markDone, reset, type Progress } from "./lib/progress"
 import "./components/ui.css"
@@ -21,10 +23,40 @@ const Done = () => (
 
 export default function App() {
   const [at, setAt] = useState<number | null>(null)
+  const [compare, setCompare] = useState<Variant | null>(null)
   const [progress, setProgress] = useState<Progress>(load)
 
   const complete = useCallback((id: string) => setProgress(markDone(id)), [])
   const home = useCallback(() => setAt(null), [])
+
+  if (compare) {
+    const VARIANTS: { k: Variant; label: string; note: string }[] = [
+      { k: "guided", label: "Guided", note: "Stage pinned, prose advances beside it. Calm and controlled — you always know where you are. Risks being passive: the student reads, then confirms." },
+      { k: "challenge", label: "Challenge", note: "The goal comes before the explanation. You must reach it on the graph before anything is told to you. Highest chance of real learning, highest chance of frustration." },
+      { k: "focus", label: "Focus", note: "One column, stage full width, prose in a single card beneath. Least chrome, most room for the graph. Loses the side-by-side reading of text against picture." },
+    ]
+    const meta = VARIANTS.find((v) => v.k === compare)!
+    return (
+      <L5
+        key={compare}
+        variant={compare}
+        onBack={() => setCompare(null)}
+        toolbar={
+          <div className="compare">
+            <span className="compare-k">Layout</span>
+            <div className="seg">
+              {VARIANTS.map((v) => (
+                <button key={v.k} className={v.k === compare ? "on" : ""} onClick={() => setCompare(v.k)}>
+                  {v.label}
+                </button>
+              ))}
+            </div>
+            <p className="compare-note">{meta.note}</p>
+          </div>
+        }
+      />
+    )
+  }
 
   if (at !== null) {
     const lesson = LESSONS[at]
@@ -78,6 +110,18 @@ export default function App() {
               <span className="row-soon">Soon</span>
             </button>
           ))}
+        </div>
+
+        <h2 className="home-next">Decide</h2>
+        <div className="list">
+          <button className="row" onClick={() => setCompare("guided")}>
+            <span className="row-n">⌥</span>
+            <span className="row-body">
+              <span className="row-t">Compare layouts</span>
+              <span className="row-d">The same lesson three ways — pick the one the product should use</span>
+            </span>
+            <Chevron />
+          </button>
         </div>
 
         <div style={{ marginTop: 28, display: "flex", alignItems: "center", gap: 16 }}>

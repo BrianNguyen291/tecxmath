@@ -30,6 +30,7 @@ export function L3({ onBack, onNext, onComplete }: LessonProps) {
 
   return (
     <Lesson
+      id="l3"
       title="The vertex, read not calculated"
       stage={stage}
       onBack={onBack}

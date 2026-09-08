@@ -2,9 +2,11 @@ import { useState } from "react"
 import { Lesson } from "../components/Lesson"
 import { Choice, Entry } from "../components/Check"
 import { Curve, Dot, Plot, Slider, VP, type LessonProps } from "./kit"
+import type { ReactNode } from "react"
+import type { Variant } from "../components/Lesson"
 import { discriminant, evalQuadratic, roots, trim } from "../lib/quadratic"
 
-export function L5({ onBack, onNext, onComplete }: LessonProps) {
+export function L5({ onBack, onNext, onComplete, variant, toolbar }: LessonProps & { variant?: Variant; toolbar?: ReactNode }) {
   const [a, setA] = useState(1)
   const [b, setB] = useState(-2)
   const [c, setC] = useState(-2)
@@ -37,7 +39,15 @@ export function L5({ onBack, onNext, onComplete }: LessonProps) {
 
   return (
     <Lesson
+      id="l5"
       title="The discriminant"
+      variant={variant}
+      toolbar={toolbar}
+      challenge={{
+        prompt: "Make the curve miss the x-axis completely.",
+        hint: "Lift it with c until the two red dots meet and disappear. Watch the number above the graph as they go.",
+        solved: d < -1e-9,
+      }}
       stage={stage}
       onBack={onBack}
       onNext={onNext}
